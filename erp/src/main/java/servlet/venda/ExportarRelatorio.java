@@ -160,13 +160,13 @@ public class ExportarRelatorio extends HttpServlet {
             menosTrinta.setDate(menosTrinta.getDate() - 30);
 
             if (inicio != null && fim != null && filial != null) { //Se passou de/até + Filial ? Filtra
-                vendas = VendaDAO.pegaRelatório(inicio, fim, filial);
+                vendas = VendaDAO.pegaRelatórioA(inicio, fim, filial);
             } else if (inicio != null && fim != null) { //Se passou apenas o de/até ? Filtra
-                vendas = VendaDAO.pegaRelatório(inicio, fim);
+                vendas = VendaDAO.pegaRelatórioA(inicio, fim);
             } else if (filial != null) { //Se passou apenas o de/até ? Filtra
-                vendas = VendaDAO.pegaRelatório(menosTrinta, new Date(), filial);
+                vendas = VendaDAO.pegaRelatórioA(menosTrinta, new Date(), filial);
             } else { //Se não passou nada ? Traz tudo
-                vendas = VendaDAO.pegaRelatório(menosTrinta, new Date());
+                vendas = VendaDAO.pegaRelatórioA(menosTrinta, new Date());
             }
         } catch (Exception ex) {
             Logger.getLogger(ExportarRelatorio.class.getName()).log(Level.SEVERE, null, ex);

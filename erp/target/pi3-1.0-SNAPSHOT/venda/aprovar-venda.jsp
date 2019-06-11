@@ -66,7 +66,8 @@
                                     </c:forEach>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="aprovarVenda(<c:out value="${venda.getId()}" />); return false;" data-dismiss="modal" class="btn btn-secondary btn-sm">Aprovar Venda</button>
+                                    <button type="button" onclick="aprovarVenda(<c:out value="${venda.getId()}" />); return false;" data-dismiss="modal" class="btn btn-primary btn-sm">Aprovar Venda</button>
+                                    <button type="button" onclick="reprovarVenda(<c:out value="${venda.getId()}" />); return false;" data-dismiss="modal" class="btn btn-secondary btn-sm">Reprovar Venda</button>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -83,6 +84,22 @@
                 $.ajax({
                     type: "POST",
                     url: window.location.href,
+                    data: {"vendaId": vendaId},
+                    success: function (result, status) {
+                        alert(result);
+                        if (status == 'success') {
+                            window.location.reload(false);
+                        }
+                    }, error: function (err) {
+                        alert('Erro tente novamente mais tarde;')
+                    }
+                });
+            }
+            
+            function reprovarVenda(vendaId) {
+                $.ajax({
+                    type: "POST",
+                    url: '/erp/reprovar-venda',
                     data: {"vendaId": vendaId},
                     success: function (result, status) {
                         alert(result);

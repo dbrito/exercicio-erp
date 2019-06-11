@@ -26,7 +26,7 @@
         <div class="content">
             <h1><i class="fa fa-list fa-lg"></i> Relatórios</h1>
             <div class="row">
-                <div class="form-group col-md-2">
+<!--                <div class="form-group col-md-2">
                     <label for="data_inicio">Data Inicio</label>
                     <input type="text" class="form-control" name="data_inicio" id="data_inicio" required>
                 </div>
@@ -34,23 +34,7 @@
                 <div class="form-group col-md-2">
                     <label for="data_inicio">Data Fim</label>
                     <input type="text" class="form-control" name="data_fim" id="data_fim" required>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <label for="filial">Filial</label>
-                    <select class="form-control" name="filial" id="filial">
-                        <option value="">Todas</option>
-                        <c:forEach var="fili" items="${filiais}">
-                            <option value="<c:out value="${fili.getId()}" />">
-                                <c:out value="${fili.getNome()}" />
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <input style="margin-top:32px;" type="submit" id="filtrar" class="btn btn-info" value="Gerar Relatório">
-                </div>
+                </div>-->
             </div>
             <style>
                 table {
@@ -65,6 +49,7 @@
                 }
             </style>
             <div class="row">
+                <h3>Vendas Aprovadas</h3>
                 <div class="col-md-12"><table class=" table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -77,7 +62,7 @@
                     </thead>
 
                     <tbody>
-                        <c:forEach var="venda" items="${vendas}">
+                        <c:forEach var="venda" items="${vendasAprovadas}">
                             <tr>
                                 <td><c:out value="${venda.getDataFormatada()}" /></td>
                                 <td><c:out value="${venda.getFilial().getNome()}" /></td>
@@ -95,9 +80,46 @@
                         </c:forEach>
                     </tbody>
                 </table></div>
-                <div class="form-group col-md-2">
+<!--                <div class="form-group col-md-2">
                     <input style="margin-top:32px;" type="submit" id="exportar" class="btn btn-info" value="Exportar Relatório">
-                </div>
+                </div>-->
+            </div>
+            
+            <div class="row">
+                <h3>Vendas Reprovadas</h3>
+                <div class="col-md-12"><table class=" table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Data</td>
+                            <td>Filial</td>
+                            <td>Vendedor</td>
+                            <td>Total</td>
+                            <td>Itens</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <c:forEach var="venda" items="${vendasReprovadas}">
+                            <tr>
+                                <td><c:out value="${venda.getDataFormatada()}" /></td>
+                                <td><c:out value="${venda.getFilial().getNome()}" /></td>
+                                <td><c:out value="${venda.getVendedor().getNome()}" /></td>
+                                <td><c:out value="${venda.getTotalFormatado()}" /></td>
+                                <td class='products'>
+                                    <c:forEach var="item" items="${venda.getItens()}">
+                                        <c:out value="${item.getQuantidade()}" />x
+                                        <c:out value="${item.getProduto().getNome()}" />
+                                        (<c:out value="${utils.numToBrl(item.getPreco())}" />)
+                                        <br>
+                                    </c:forEach>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table></div>
+<!--                <div class="form-group col-md-2">
+                    <input style="margin-top:32px;" type="submit" id="exportar" class="btn btn-info" value="Exportar Relatório">
+                </div>-->
             </div>
         </div>
 

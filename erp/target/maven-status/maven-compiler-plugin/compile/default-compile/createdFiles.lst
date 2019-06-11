@@ -1,4 +1,5 @@
 ads\pi3\DAO\FilialDAO.class
+servlet\venda\AprovarVenda.class
 servlet\filial\EditarFilial.class
 ads\pi3\utils\Utils.class
 ads\pi3\model\ItemVenda.class
@@ -25,6 +26,7 @@ ads\pi3\utils\ConnectionFactory.class
 servlet\cliente\Clientes.class
 servlet\login\Logout.class
 servlet\usuario\EditarUsuario.class
+servlet\venda\ReprovarVenda.class
 ads\pi3\model\Cliente.class
 servlet\cliente\ExcluirCliente.class
 servlet\usuario\ExcluirUsuario.class

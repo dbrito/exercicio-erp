@@ -50,8 +50,16 @@ public class Relatorios extends HttpServlet {
             }
         } catch(Exception e) {}
         
-        List<Venda> vendas = getVendas(request);                
-        request.setAttribute("vendas", vendas);        
+        try {        
+            request.setAttribute("vendasAprovadas", getVendasAprovadas(request));
+        } catch (Exception ex) {
+            Logger.getLogger(Relatorios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {        
+            request.setAttribute("vendasReprovadas", getVendasReprovadas(request));
+        } catch (Exception ex) {
+            Logger.getLogger(Relatorios.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Utils utils= new Utils();
         request.setAttribute("utils", utils);        
         List<Filial> filiais = FilialDAO.listar();
@@ -60,40 +68,17 @@ public class Relatorios extends HttpServlet {
         meuk.forward(request, response);
     }
     
-    List<Venda> getVendas(HttpServletRequest request) {
-        Date inicio=null;
-        Date fim=null;
-        Filial filial = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    List<Venda> getVendasAprovadas(HttpServletRequest request) throws Exception {
+        List<Venda> vendas = null;
+        vendas = VendaDAO.pegaRelatórioA();
+        return vendas;
+    }
+    
+    List<Venda> getVendasReprovadas(HttpServletRequest request) throws Exception {
         List<Venda> vendas = null;
 
-        //Recupero os parametros
-        try {
-            inicio = sdf.parse(request.getParameter("data_inicio"));
-            fim = sdf.parse(request.getParameter("data_fim"));
-        } catch (Exception ex) {}
-        try {
-            filial = FilialDAO.obter( Integer.valueOf(request.getParameter("filial")) );
-        } catch (Exception ex) {}
-
-        //Com os parametros decido qual metodo de busca utilizo
-        try {
-            Date menosTrinta = new Date();
-            menosTrinta.setDate(menosTrinta.getDate() - 364);
-
-            if (inicio != null && fim != null && filial != null) { //Se passou de/até + Filial ? Filtra
-                vendas = VendaDAO.pegaRelatório(inicio, fim, filial);
-            } else if (inicio != null && fim != null) { //Se passou apenas o de/até ? Filtra
-                vendas = VendaDAO.pegaRelatório(inicio, fim);
-            } else if (filial != null) { //Se passou apenas o de/até ? Filtra
-                vendas = VendaDAO.pegaRelatório(menosTrinta, new Date(), filial);
-            } else { //Se não passou nada ? Traz tudo
-                vendas = VendaDAO.pegaRelatório(menosTrinta, new Date());
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(ExportarRelatorio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        vendas = VendaDAO.pegaRelatórioR();
         return vendas;
-    }       
+    }
 
 }

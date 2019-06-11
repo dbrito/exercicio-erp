@@ -37,7 +37,7 @@ public class AprovarVenda extends HttpServlet {
         
         List<Venda> clientes=null;                
         try {
-            clientes = VendaDAO.listarVendasNaoAprovadas();
+            clientes = VendaDAO.listarVendas();
         } catch (Exception ex) {
             Logger.getLogger(AprovarVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,4 +68,26 @@ public class AprovarVenda extends HttpServlet {
         
         
     }
+    
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {                                 
+        Usuario user = Utils.getCurrentUser(request);
+        if (user == null) {
+            response.sendError(403, "Acesso negado");
+            return;
+        }        
+        
+        try {
+            int vendaId = Integer.parseInt(request.getParameter("vendaId"));                        
+            VendaDAO.aprovar(vendaId);
+            PrintWriter resposta = response.getWriter();
+            resposta.println("A venda foi reprovada com sucesso!");
+        } catch (Exception ex) {
+            response.sendError(503, ex.getMessage());
+            Logger.getLogger(RealizarVenda.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        
+    }
+    
 }

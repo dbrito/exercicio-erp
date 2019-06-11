@@ -234,7 +234,9 @@ public class UsuarioDAO {
                 //Retorna o resultado
                 return usuario;
             }            
-        } finally {            
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }finally {            
             if (result != null && !result.isClosed()) result.close();            
             if (preparedStatement != null && !preparedStatement.isClosed()) preparedStatement.close();            
             if (connection != null && !connection.isClosed()) connection.close();
